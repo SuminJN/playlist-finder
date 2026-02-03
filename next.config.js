@@ -17,6 +17,21 @@ const nextConfig = {
     formats: ['image/webp'],
   },
 
+  // 헤더 설정
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'all',
+          },
+        ],
+      },
+    ];
+  },
+
   // 성능 최적화
   compiler: {
     // production 빌드 시 console 제거
