@@ -15,8 +15,8 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
-  verification: {
-    google: "google-site-verification-code",
+  other: {
+    "google-adsense-account": "ca-pub-3344724775911260",
   },
 };
 
