@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["icn1"],
+  "env": {
+    "NEXT_PUBLIC_YOUTUBE_API_KEY": {
+      "description": "YouTube Data API v3 키 (https://console.cloud.google.com/apis/credentials 에서 발급)",
+      "required": false
+    },
+    "NEXT_PUBLIC_USE_MOCK_DATA": {
+      "description": "Mock 데이터 사용 여부 (true/false). API 할당량 절약이나 테스트용으로 사용",
+      "value": "false",
+      "required": false
+    }
+  }
+}
