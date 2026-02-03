@@ -16,6 +16,13 @@ export default function HomePage() {
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [lastSearchQuery, setLastSearchQuery] = useState<string>("");
+
+  const handleReset = () => {
+    setSelectedSituation("");
+    setSelectedMood("");
+    setCustomInput("");
+  };
 
   const handleSearch = async () => {
     console.log("검색 시작:", {
@@ -34,8 +41,12 @@ export default function HomePage() {
       const searchQuery = customInput.trim() || `${selectedSituation} ${selectedMood}`;
       const results = await fetchPlaylists(searchQuery);
       setPlaylists(results);
+      setLastSearchQuery(searchQuery);
       
       console.log(`${results.length}개의 플레이리스트를 찾았습니다:`, results);
+      
+      // 검색 완료 후 입력값 초기화
+      handleReset();
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "플레이리스트를 가져오는데 실패했습니다.";
@@ -70,7 +81,7 @@ export default function HomePage() {
               {situations.map((situation) => (
                 <button
                   key={situation}
-                  onClick={() => setSelectedSituation(situation)}
+                  onClick={() => setSelectedSituation(selectedSituation === situation ? "" : situation)}
                   className={`py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                     selectedSituation === situation
                       ? "bg-purple-600 text-white shadow-lg scale-105"
@@ -92,7 +103,7 @@ export default function HomePage() {
               {moods.map((mood) => (
                 <button
                   key={mood}
-                  onClick={() => setSelectedMood(mood)}
+                  onClick={() => setSelectedMood(selectedMood === mood ? "" : mood)}
                   className={`py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                     selectedMood === mood
                       ? "bg-pink-600 text-white shadow-lg scale-105"
@@ -135,9 +146,9 @@ export default function HomePage() {
           <div className="flex justify-center">
             <button
               onClick={handleSearch}
-              disabled={!customInput.trim() && (!selectedSituation || !selectedMood)}
+              disabled={!customInput.trim() && !selectedSituation && !selectedMood}
               className={`py-4 px-12 rounded-full text-lg font-bold transition-all duration-200 ${
-                customInput.trim() || (selectedSituation && selectedMood)
+                customInput.trim() || selectedSituation || selectedMood
                   ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-2xl hover:scale-105"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
@@ -190,10 +201,14 @@ export default function HomePage() {
           {/* 검색 결과 */}
           {!isLoading && !error && playlists.length > 0 && (
             <div>
-              <p className="text-gray-600 mb-4">
-                총 <span className="font-semibold text-purple-600">{playlists.length}</span>개의
-                플레이리스트를 찾았습니다
-              </p>
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 text-sm mb-2">
+                  <span className="font-semibold">🔎 검색 기준:</span> {lastSearchQuery}
+                </p>
+                <p className="text-gray-600">
+                  총 <span className="font-semibold text-purple-600">{playlists.length}</span>개의 플레이리스트를 찾았습니다
+                </p>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {playlists.map((playlist) => (
                   <PlaylistCard key={playlist.id} playlist={playlist} />
