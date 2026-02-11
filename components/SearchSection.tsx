@@ -6,7 +6,7 @@ import { Playlist } from "@/types/youtube";
 import PlaylistCard from "@/components/PlaylistCard";
 
 // 더미 데이터
-const situations = ["공부", "운동", "휴식", "드라이브", "요리"];
+const situations = ["공부", "운동", "드라이브", "수면"];
 const moods = ["신남", "차분함", "우울함", "집중", "몽환적"];
 
 export default function SearchSection() {
