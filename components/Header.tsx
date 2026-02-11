@@ -17,6 +17,12 @@ export default function Header() {
               홈
             </Link>
             <Link 
+              href="/blog" 
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              블로그
+            </Link>
+            <Link 
               href="/about" 
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
